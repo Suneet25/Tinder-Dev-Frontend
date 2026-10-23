@@ -1,0 +1,270 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens.
+ * Every color/font/radius the app uses lives here as a CSS variable, set per
+ * theme on <html data-theme="...">. Tailwind utilities (bg-primary,
+ * text-muted, rounded-card, font-display, ...) are mapped onto these
+ * variables in @theme below, so components never hardcode hex values.
+ */
+
+:root,
+[data-theme="midnight"] {
+  color-scheme: dark;
+  --bg: #0e0f13;
+  --surface: #171920;
+  --surface-2: #20232c;
+  --border: #2a2e39;
+  --border-strong: #3a3f4c;
+  --text: #f4f5f7;
+  --text-soft: #d6d9e0;
+  --muted: #a0a6b4;
+  --subtle: #7c8291;
+
+  /* Primary: main CTAs, active nav, focus rings */
+  --primary: #ff6b4a;
+  --primary-hover: #ff8a6e;
+  --on-primary: #0e0f13;
+  /* Secondary: verified, success, match score, online */
+  --secondary: #4fd1c5;
+  --secondary-hover: #7fded5;
+  --on-secondary: #0e0f13;
+
+  --danger: #ff8f8f;
+  --danger-soft: #3a1f22;
+  --danger-border: #5a2a2a;
+  --warning: #f5c451;
+  --info: #6fa8ff;
+
+  --font-display-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --display-weight: 700;
+  --display-case: none;
+  --display-tracking: -0.02em;
+
+  --r-card: 20px;
+  --r-control: 12px;
+  --r-action: 9999px;
+}
+
+[data-theme="paper"] {
+  color-scheme: light;
+  --bg: #f4efe6;
+  --surface: #fffcf6;
+  --surface-2: #ece5d8;
+  --border: #d9cfbe;
+  --border-strong: #c4b8a3;
+  --text: #1f1b16;
+  --text-soft: #3b342b;
+  --muted: #645b4f;
+  --subtle: #7a7064;
+  --primary: #c2410c;
+  --primary-hover: #a3370a;
+  --on-primary: #ffffff;
+  --secondary: #0f766e;
+  --secondary-hover: #0b5d57;
+  --on-secondary: #ffffff;
+  --danger: #b42318;
+  --danger-soft: #fbe4e1;
+  --danger-border: #f1b8b1;
+  --warning: #a15c07;
+  --info: #1d4ed8;
+  --font-display-family: "Fraunces", ui-serif, Georgia, serif;
+  --display-weight: 600;
+  --display-tracking: -0.01em;
+  --r-card: 8px;
+  --r-control: 6px;
+  --r-action: 6px;
+}
+
+[data-theme="editor"] {
+  color-scheme: dark;
+  --bg: #1e1e1e;
+  --surface: #252526;
+  --surface-2: #2d2d2d;
+  --border: #3e3e42;
+  --border-strong: #55555b;
+  --text: #d4d4d4;
+  --text-soft: #c8c8c8;
+  --muted: #a0a0a0;
+  --subtle: #8a8a8a;
+  --primary: #4fc1ff;
+  --primary-hover: #7fd2ff;
+  --on-primary: #0e0f13;
+  --secondary: #4ec9b0;
+  --secondary-hover: #73d6c2;
+  --on-secondary: #0e0f13;
+  --danger: #f48771;
+  --danger-soft: #3a2420;
+  --danger-border: #5c3a33;
+  --warning: #dcdcaa;
+  --info: #9cdcfe;
+  --font-display-family: "JetBrains Mono", ui-monospace, monospace;
+  --font-body-family: "JetBrains Mono", ui-monospace, monospace;
+  --display-weight: 600;
+  --display-tracking: 0;
+  --r-card: 6px;
+  --r-control: 4px;
+  --r-action: 6px;
+}
+
+[data-theme="iron"] {
+  color-scheme: dark;
+  --bg: #0a0a0a;
+  --surface: #151515;
+  --surface-2: #222222;
+  --border: #2e2e2e;
+  --border-strong: #444444;
+  --text: #ffffff;
+  --text-soft: #e5e5e5;
+  --muted: #a3a3a3;
+  --subtle: #8a8a8a;
+  --primary: #c6f432;
+  --primary-hover: #d6f86b;
+  --on-primary: #0a0a0a;
+  --secondary: #4fd1c5;
+  --secondary-hover: #7fded5;
+  --on-secondary: #0a0a0a;
+  --danger: #ff8f8f;
+  --danger-soft: #3a1f22;
+  --danger-border: #5a2a2a;
+  --warning: #f5c451;
+  --info: #6fa8ff;
+  --font-display-family: "Oswald", ui-sans-serif, system-ui, sans-serif;
+  --display-case: uppercase;
+  --display-tracking: 0.02em;
+  --r-card: 12px;
+  --r-control: 8px;
+  --r-action: 10px;
+}
+
+[data-theme="blush"] {
+  color-scheme: light;
+  --bg: #fff4f5;
+  --surface: #ffffff;
+  --surface-2: #ffe6ea;
+  --border: #f6cdd4;
+  --border-strong: #eba9b5;
+  --text: #3a0d18;
+  --text-soft: #5a2230;
+  --muted: #8a4656;
+  --subtle: #9a5a69;
+  --primary: #e11d48;
+  --primary-hover: #be123c;
+  --on-primary: #ffffff;
+  --secondary: #0f766e;
+  --secondary-hover: #0b5d57;
+  --on-secondary: #ffffff;
+  --danger: #b42318;
+  --danger-soft: #fde2e4;
+  --danger-border: #f5b5bd;
+  --warning: #a15c07;
+  --info: #1d4ed8;
+  --font-display-family: "DM Serif Display", ui-serif, Georgia, serif;
+  --display-weight: 400;
+  --display-tracking: 0;
+  --r-card: 28px;
+  --r-control: 16px;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-text-soft: var(--text-soft);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-on-secondary: var(--on-secondary);
+
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-danger-border: var(--danger-border);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+
+  --font-sans: var(--font-body-family);
+  --font-display: var(--font-display-family);
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --radius-card: var(--r-card);
+  --radius-control: var(--r-control);
+  --radius-action: var(--r-action);
+}
+
+/*
+ * Mode colors (coding, gym, dating, ...) and avatar fills are fixed across
+ * themes: they are always drawn with dark ink on top.
+ */
+@theme {
+  --color-ink: #0e0f13;
+  --color-mode-coding: #b79cff;
+  --color-mode-gym: #c6f432;
+  --color-mode-dating: #ff8a6e;
+  --color-mode-friends: #f5c451;
+  --color-mode-travel: #6fa8ff;
+  --color-mode-cofounder: #4fd1c5;
+
+  --animate-toast-in: toast-in 220ms cubic-bezier(0.2, 0.9, 0.3, 1.2);
+
+  @keyframes toast-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+}
+
+@keyframes toast-progress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@layer base {
+  html,
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body-family);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::placeholder {
+    color: var(--subtle);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+}
+
+@utility heading {
+  font-family: var(--font-display-family);
+  font-weight: var(--display-weight);
+  text-transform: var(--display-case);
+  letter-spacing: var(--display-tracking);
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
