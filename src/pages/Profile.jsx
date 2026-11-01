@@ -88,6 +88,19 @@ export default function Profile() {
           )}
         </section>
 
+        <section className="flex items-center gap-3.5 rounded-[20px] bg-surface-2 p-4">
+          <span className="flex size-11 shrink-0 items-center justify-center rounded-[14px] bg-primary text-on-primary">
+            <Icon name="bolt" size={22} strokeWidth={2.2} />
+          </span>
+          <div className="flex flex-1 flex-col gap-0.5">
+            <span className="text-[15px] font-semibold">Go Premium</span>
+            <span className="text-[13px] text-muted">Chat, unlimited profiles, gold tick</span>
+          </div>
+          <Link to="/premium" className="rounded-xl bg-text px-3.5 py-2.5 text-[13px] font-semibold text-bg hover:opacity-90">
+            Upgrade
+          </Link>
+        </section>
+
         <Button variant="danger" className="mt-2" leftIcon={<Icon name="logout" size={18} />} onClick={() => dispatch(logout())}>
           Log out
         </Button>

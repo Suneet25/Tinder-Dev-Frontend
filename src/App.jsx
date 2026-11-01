@@ -7,11 +7,14 @@ import { ProtectedRoute, PublicOnlyRoute } from "./components/layout/RouteGuards
 import { persistTheme } from "./features/theme/themeSlice";
 import { fetchProfile } from "./features/user/userSlice";
 import Appearance from "./pages/Appearance";
+import Checkout from "./pages/Checkout";
 import Connections from "./pages/Connections";
 import EditProfile from "./pages/EditProfile";
 import Feed from "./pages/Feed";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import Premium from "./pages/Premium";
 import Profile from "./pages/Profile";
 import Requests from "./pages/Requests";
 
@@ -45,6 +48,9 @@ export default function App() {
           </Route>
           <Route path="/profile/edit" element={<EditProfile />} />
           <Route path="/appearance" element={<Appearance />} />
+          <Route path="/premium" element={<Premium />} />
+          <Route path="/premium/checkout" element={<Checkout />} />
+          <Route path="/premium/success" element={<PaymentSuccess />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

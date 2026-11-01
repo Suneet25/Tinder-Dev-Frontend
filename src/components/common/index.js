@@ -8,4 +8,5 @@ export { default as Icon } from "./Icon";
 export { default as IconButton } from "./IconButton";
 export { default as SegmentedControl } from "./SegmentedControl";
 export { default as Spinner } from "./Spinner";
+export { default as TierBadge } from "./TierBadge";
 export { default as Toaster } from "./Toaster";

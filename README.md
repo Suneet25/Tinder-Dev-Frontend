@@ -12,6 +12,42 @@ npm run dev              # http://localhost:5173
 
 Start the backend first (`npm run dev` in Tinder-Dev-Backend). In development every request goes to `/api/*` and Vite proxies it to the backend, so the `token` cookie is same-origin and no CORS setup is needed.
 
+## Deploy
+
+The app always calls `/api/*`. Whatever serves the build must forward that prefix to the backend, which keeps the cookie same-origin exactly as in development:
+
+| Where | Who forwards `/api` | Config |
+| --- | --- | --- |
+| `npm run dev` | Vite dev server | `VITE_BACKEND_URL` (default `http://localhost:7777`) |
+| `npm run build && npm run preview` | Vite preview server | same |
+| Production | nginx | below |
+
+```nginx
+server {
+    server_name your-domain.com;
+    root /var/www/tinder-dev-frontend/dist;
+
+    # React Router: unknown paths load the app
+    location / {
+        try_files $uri /index.html;
+    }
+
+    # /api/login -> http://localhost:7777/login
+    location /api/ {
+        proxy_pass http://localhost:7777/;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+Build with `npm run build` (no env needed) and copy `dist/` to the `root` above. The trailing `/` on both `location /api/` and `proxy_pass` is what strips the prefix.
+
+Backend on a different domain instead? Build with `VITE_API_URL=https://api.example.com npm run build`, and on the backend allow that origin in `cors({ origin, credentials: true })` (registered before the routers) and set the cookie with `sameSite: "none", secure: true`.
+
 ## Structure
 
 ```

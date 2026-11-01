@@ -49,6 +49,13 @@ const PATHS = {
       <circle cx="15.5" cy="7.5" r="1" />
     </>
   ),
+  bolt: <path d="M13 2L4 14h7l-1 8 9-12h-7z" />,
+  lock: (
+    <>
+      <rect x="5" y="11" width="14" height="10" rx="2" />
+      <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+    </>
+  ),
   search: (
     <>
       <circle cx="11" cy="11" r="7" />
