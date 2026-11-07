@@ -68,7 +68,7 @@ export default function EditProfile() {
   };
 
   return (
-    <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col bg-bg">
+    <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col bg-bg lg:max-w-2xl lg:py-4">
       <form onSubmit={handleSubmit} noValidate className="flex flex-1 flex-col">
         <header className="sticky top-0 z-10 flex items-center justify-between border-b border-surface-2 bg-bg px-4 py-3">
           <IconButton as={Link} to="/profile" icon="back" label="Back to profile" variant="ghost" />

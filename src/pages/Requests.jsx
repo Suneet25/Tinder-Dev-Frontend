@@ -44,11 +44,11 @@ export default function Requests() {
   }, [dispatch]);
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-1 flex-col lg:mx-auto lg:w-full lg:max-w-3xl lg:py-3">
       <PageHeader title="Requests" eyebrow={received.length ? `${received.length} pending` : undefined} />
-      <div className="flex flex-col gap-3 px-4 pb-5">
+      <div className="flex flex-col gap-3 px-4 pb-5 lg:grid lg:grid-cols-2 lg:px-5">
         {status === "loading" && received.length === 0 && (
-          <div className="flex justify-center py-16 text-primary">
+          <div className="flex justify-center py-16 text-primary lg:col-span-2">
             <Spinner size={28} />
           </div>
         )}
@@ -57,6 +57,7 @@ export default function Requests() {
         ))}
         {status !== "loading" && received.length === 0 && (
           <EmptyState
+            className="lg:col-span-2"
             title="Inbox zero"
             description="No pending requests. Go swipe on some devs."
             action={

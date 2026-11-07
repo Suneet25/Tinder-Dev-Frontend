@@ -3,6 +3,8 @@ import userReducer, { clearUser, logout } from "../features/user/userSlice";
 import feedReducer from "../features/feed/feedSlice";
 import requestsReducer from "../features/requests/requestsSlice";
 import connectionsReducer from "../features/connections/connectionsSlice";
+import chatReducer from "../features/chat/chatSlice";
+import premiumReducer from "../features/premium/premiumSlice";
 import toastReducer from "../features/toast/toastSlice";
 import themeReducer from "../features/theme/themeSlice";
 
@@ -11,6 +13,8 @@ const appReducer = combineReducers({
   feed: feedReducer,
   requests: requestsReducer,
   connections: connectionsReducer,
+  chat: chatReducer,
+  premium: premiumReducer,
   toast: toastReducer,
   theme: themeReducer,
 });

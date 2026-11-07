@@ -5,6 +5,8 @@ const VARIANTS = {
   soft: "border border-border bg-surface text-text hover:bg-surface-2",
   ghost: "bg-transparent text-text hover:bg-surface-2",
   primary: "bg-primary text-on-primary hover:bg-primary-hover",
+  // Pressed toggles, e.g. an open side panel
+  inverse: "bg-text text-bg hover:bg-text-soft",
 };
 
 const SIZES = { md: "size-11 rounded-[14px]", lg: "size-16 rounded-action" };

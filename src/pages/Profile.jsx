@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Avatar, Button, Card, Icon, IconButton, SectionLabel, Tag } from "../components/common";
+import { Avatar, Button, Card, Icon, IconButton, SectionLabel, Tag, TierBadge } from "../components/common";
 import PageHeader from "../components/layout/PageHeader";
 import { fetchConnections } from "../features/connections/connectionsSlice";
+import { TIERS } from "../features/payment/plans";
 import { logout } from "../features/user/userSlice";
 import { fullName } from "../lib/avatar";
 
@@ -22,6 +23,9 @@ export default function Profile() {
   const connectionsStatus = useSelector((s) => s.connections.status);
   const connections = useSelector((s) => s.connections.list.length);
   const requests = useSelector((s) => s.requests.received.length);
+  const premium = useSelector((s) => s.premium);
+  // "Gold" -> "gold"; only tiers we have styles for get a badge
+  const tier = premium.isPremium && TIERS[premium.membershipType?.toLowerCase()] ? premium.membershipType.toLowerCase() : null;
 
   useEffect(() => {
     if (connectionsStatus === "idle") dispatch(fetchConnections());
@@ -33,16 +37,17 @@ export default function Profile() {
   const memberSince = user.createdAt ? new Date(user.createdAt).toLocaleDateString(undefined, { month: "short", year: "numeric" }) : null;
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-1 flex-col lg:mx-auto lg:w-full lg:max-w-2xl lg:py-3">
       <PageHeader title="Profile" actions={<IconButton as={Link} to="/appearance" icon="palette" label="Appearance and themes" />} />
 
       <div className="flex flex-col gap-4 px-5 pb-6">
         <section className="flex items-center gap-4">
           <Avatar user={user} size="lg" />
           <div className="flex min-w-0 flex-col gap-1">
-            <h2 className="heading truncate text-2xl">
+            <h2 className="heading flex items-center gap-1.5 truncate text-2xl">
               {user.firstName}
               {user.age ? `, ${user.age}` : ""}
+              {tier && <TierBadge tier={tier} size={20} label={`${premium.membershipType} member`} />}
             </h2>
             <span className="flex items-center gap-1.5 truncate text-sm text-muted">
               <Icon name="mail" size={14} />
@@ -57,7 +62,7 @@ export default function Profile() {
         </Button>
 
         <section aria-label="Your stats" className="grid grid-cols-2 gap-2">
-          <Link to="/connections" className="flex flex-col gap-1 rounded-2xl border border-border bg-surface px-3 py-3.5 hover:bg-surface-2">
+          <Link to="/chats" className="flex flex-col gap-1 rounded-2xl border border-border bg-surface px-3 py-3.5 hover:bg-surface-2">
             <span className="font-display text-2xl font-bold">{connections}</span>
             <span className="text-xs text-muted">Matches</span>
           </Link>
@@ -88,18 +93,32 @@ export default function Profile() {
           )}
         </section>
 
-        <section className="flex items-center gap-3.5 rounded-[20px] bg-surface-2 p-4">
-          <span className="flex size-11 shrink-0 items-center justify-center rounded-[14px] bg-primary text-on-primary">
-            <Icon name="bolt" size={22} strokeWidth={2.2} />
-          </span>
-          <div className="flex flex-1 flex-col gap-0.5">
-            <span className="text-[15px] font-semibold">Go Premium</span>
-            <span className="text-[13px] text-muted">Chat, unlimited profiles, gold tick</span>
-          </div>
-          <Link to="/premium" className="rounded-xl bg-text px-3.5 py-2.5 text-[13px] font-semibold text-bg hover:opacity-90">
-            Upgrade
-          </Link>
-        </section>
+        {premium.isPremium ? (
+          <section className="flex items-center gap-3.5 rounded-[20px] bg-surface-2 p-4">
+            <span className="flex size-11 shrink-0 items-center justify-center rounded-[14px] bg-bg">
+              <TierBadge tier={tier ?? "gold"} size={28} />
+            </span>
+            <div className="flex flex-1 flex-col gap-0.5">
+              <span className="text-[15px] font-semibold">{premium.membershipType ?? "Premium"} member</span>
+              <span className="text-[13px] text-muted">Your premium features are unlocked</span>
+            </div>
+          </section>
+        ) : (
+          premium.status === "ready" && (
+            <section className="flex items-center gap-3.5 rounded-[20px] bg-surface-2 p-4">
+              <span className="flex size-11 shrink-0 items-center justify-center rounded-[14px] bg-primary text-on-primary">
+                <Icon name="bolt" size={22} strokeWidth={2.2} />
+              </span>
+              <div className="flex flex-1 flex-col gap-0.5">
+                <span className="text-[15px] font-semibold">Go Premium</span>
+                <span className="text-[13px] text-muted">Chat, unlimited profiles, gold tick</span>
+              </div>
+              <Link to="/premium" className="rounded-xl bg-text px-3.5 py-2.5 text-[13px] font-semibold text-bg hover:opacity-90">
+                Upgrade
+              </Link>
+            </section>
+          )
+        )}
 
         <Button variant="danger" className="mt-2" leftIcon={<Icon name="logout" size={18} />} onClick={() => dispatch(logout())}>
           Log out

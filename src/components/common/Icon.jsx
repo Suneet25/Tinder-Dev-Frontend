@@ -49,7 +49,43 @@ const PATHS = {
       <circle cx="15.5" cy="7.5" r="1" />
     </>
   ),
-  bolt: <path d="M13 2L4 14h7l-1 8 9-12h-7z" />,
+  send: <path d="M12 19V5M5 12l7-7 7 7" />,
+  arrowRight: <path d="M5 12h14M13 6l6 6-6 6" />,
+  play: <path d="M7 4.5v15l13-7.5z" fill="currentColor" />,
+  users: (
+    <>
+      <circle cx="9" cy="8" r="3.5" />
+      <path d="M2.5 20c.8-3.5 3.5-5.5 6.5-5.5s5.7 2 6.5 5.5" />
+      <path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.8c1.8.8 3 2.6 3.5 5.2" />
+    </>
+  ),
+  userPlus: (
+    <>
+      <circle cx="9" cy="8" r="3.5" />
+      <path d="M2.5 20c.8-3.5 3.5-5.5 6.5-5.5s5.7 2 6.5 5.5M18 8v6M15 11h6" />
+    </>
+  ),
+  userCheck: (
+    <>
+      <circle cx="9" cy="8" r="3.5" />
+      <path d="M2.5 20c.8-3.5 3.5-5.5 6.5-5.5s5.7 2 6.5 5.5M15.5 11l2 2 4-4" />
+    </>
+  ),
+  plane: <path d="M21 15.5l-8-4.5V5a1.5 1.5 0 0 0-3 0v6l-8 4.5v2l8-2.5v4l-2 1.5v1.5l3.5-1 3.5 1V20.5l-2-1.5v-4l8 2.5z" />,
+  calendar: (
+    <>
+      <rect x="3" y="5" width="18" height="16" rx="2" />
+      <path d="M16 3v4M8 3v4M3 10h18" />
+    </>
+  ),
+  panel: (
+    <>
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <path d="M15 4v16" />
+    </>
+  ),
+  doubleCheck: <path d="M2 12.5l4 4 8-9M10 16.5l1 0 8-9" />,
+  bolt:<path d="M13 2L4 14h7l-1 8 9-12h-7z" />,
   lock: (
     <>
       <rect x="5" y="11" width="14" height="10" rx="2" />

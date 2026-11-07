@@ -19,6 +19,14 @@ export function ProtectedRoute() {
   return <Outlet />;
 }
 
+// Plans and checkout: members already have a plan, send them back to Profile
+export function FreeOnlyRoute() {
+  const { isPremium, status } = useSelector((s) => s.premium);
+  if (status !== "ready") return <FullPageLoader />;
+  if (isPremium) return <Navigate to="/profile" replace />;
+  return <Outlet />;
+}
+
 // Login page: bounce logged-in users to where they were headed
 export function PublicOnlyRoute() {
   const { data, status } = useSelector((s) => s.user);

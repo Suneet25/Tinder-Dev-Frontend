@@ -1,9 +1,14 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useLocation } from "react-router-dom";
-import { Avatar, Icon, TierBadge } from "../components/common";
+import { Animation, Avatar, Icon, TierBadge } from "../components/common";
 import PremiumScreen from "../components/layout/PremiumScreen";
 import { PLANS, renewalDate, TIERS } from "../features/payment/plans";
+import { checkPremium } from "../features/premium/premiumSlice";
 import { cn } from "../lib/cn";
+
+const POLL_INTERVAL_MS = 2000;
+const POLL_ATTEMPTS = 10;
 
 // [left, top, width, height, rotate, color]; "tier" takes the plan's color
 const CONFETTI = [
@@ -27,9 +32,24 @@ function Row({ label, children }) {
 }
 
 export default function PaymentSuccess() {
+  const dispatch = useDispatch();
   const user = useSelector((s) => s.user.data);
+  const isPremium = useSelector((s) => s.premium.isPremium);
   const { state } = useLocation();
   const plan = PLANS[state?.planId];
+
+  // The membership is granted by Razorpay's webhook, which can land a few
+  // seconds after the checkout closes: re-check until the backend has it.
+  useEffect(() => {
+    if (!plan || isPremium) return;
+    let attempts = 0;
+    dispatch(checkPremium());
+    const timer = setInterval(() => {
+      if (++attempts >= POLL_ATTEMPTS) clearInterval(timer);
+      dispatch(checkPremium());
+    }, POLL_INTERVAL_MS);
+    return () => clearInterval(timer);
+  }, [dispatch, plan, isPremium]);
 
   // Only reachable straight after a Razorpay payment
   if (!plan) return <Navigate to="/premium" replace />;
@@ -49,8 +69,11 @@ export default function PaymentSuccess() {
       </div>
 
       <main className="relative flex min-h-0 flex-1 flex-col items-center gap-[18px] overflow-y-auto px-5 pt-14 pb-4 text-center">
-        <div className={cn("flex size-[132px] shrink-0 items-center justify-center rounded-full", tier.glow)}>
-          <TierBadge tier={plan.tier} size={96} label={`${plan.name} tick`} />
+        <div className="relative flex shrink-0 items-center justify-center">
+          <Animation name="success-burst" loop={false} className="absolute size-[220px]" />
+          <div className={cn("relative flex size-[132px] items-center justify-center rounded-full", tier.glow)}>
+            <TierBadge tier={plan.tier} size={96} label={`${plan.name} tick`} />
+          </div>
         </div>
 
         <div className="flex flex-col gap-2">
@@ -103,7 +126,7 @@ export default function PaymentSuccess() {
       </main>
 
       <div className="relative flex flex-col gap-2.5 bg-bg px-5 pt-3 pb-[26px]">
-        <Link to="/connections" className={cn("flex h-[54px] items-center justify-center rounded-[14px] text-base font-bold text-ink", tier.bg)}>
+        <Link to="/chats" className={cn("flex h-[54px] items-center justify-center rounded-[14px] text-base font-bold text-ink", tier.bg)}>
           Start chatting
         </Link>
         <Link to="/feed" className="flex h-[50px] items-center justify-center rounded-[14px] border border-border text-[15px] font-semibold hover:bg-surface">

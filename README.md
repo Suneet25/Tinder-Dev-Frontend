@@ -53,21 +53,40 @@ Backend on a different domain instead? Build with `VITE_API_URL=https://api.exam
 ```
 src/
   app/store.js              Redux store (resets user data on logout)
-  lib/api.js                axios instance, error-message normalizer, 401 handling
+  lib/                      api (axios + error messages), avatar, time formatting, cn
+  hooks/useMediaQuery.js    for the few places desktop and mobile render different trees
   features/
     user/                   session: login, signup, logout, profile view/edit
     feed/                   GET /feed, POST /request/send/:status/:id
     requests/               GET /user/requests/received, POST /request/review/:status/:id
-    connections/            GET /user/connections
+    connections/            GET /user/connections, useFriend(userId)
+    chat/                   chat threads (in memory until the backend has a chat API)
+    premium/, payment/      GET /payment/check-premium, plans and prices
     toast/                  toast slice + useToast() hook
     theme/                  theme slice (persisted in localStorage)
   components/
-    common/                 Button, IconButton, Input, Select, Textarea, Tag, Badge,
-                            ChoiceChip, Avatar, Card, SegmentedControl, EmptyState,
-                            Spinner, Icon, Toaster
-    layout/                 AppLayout, BottomNav, PageHeader, route guards
-  pages/                    Login, Feed, Requests, Connections, Profile, EditProfile, Appearance
+    common/                 Button, IconButton, Input, Avatar, Icon, Logo, TierBadge,
+                            Animation (Lottie), Toaster, ...
+    layout/                 AppLayout, SideNav (desktop), BottomNav (mobile),
+                            navigation.js (nav items, full-screen routes), route guards
+    chat/                   ChatList, Conversation, ChatInfo
+    feed/                   ActivityPanel (desktop Discover sidebar)
+    landing/                landing page sections; copy lives in content.js
+  pages/                    one file per route (see App.jsx)
+  assets/lottie/            generated animations (see below)
+scripts/build-lottie.mjs    source of the Lottie animations
 ```
+
+## Layout: mobile and desktop
+
+Below Tailwind's `lg` breakpoint (1024px) the app is a phone-width column with a tab bar. From `lg` up, `AppLayout` shows a sidebar instead and each page uses the full width (`lg:` classes). Chats collapses the sidebar to an icon rail and shows list, conversation and info side by side. Which routes hide the tab bar or collapse the sidebar is configured in `components/layout/navigation.js`.
+
+## Animations
+
+- **Lottie** for self-contained illustrations: `<Animation name="typing" className="h-[30px] w-14" />`. The player and the JSON load lazily, so pages without animations don't download them. With *reduce motion* turned on they show a still frame.
+- **CSS** (`animate-float`, `animate-orbit`, `animate-marquee`, ... in `index.css`) for simple movement. Always prefix them with `motion-safe:`.
+
+The Lottie files are generated from `scripts/build-lottie.mjs`. To change one or add one, edit that file, run `npm run lottie`, commit the JSON it writes and add the name to the map in `components/common/Animation.jsx`. You can also drop in a JSON exported from LottieFiles/After Effects and register it the same way.
 
 ## Colors and themes
 

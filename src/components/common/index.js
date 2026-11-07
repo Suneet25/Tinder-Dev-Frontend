@@ -1,4 +1,6 @@
+export { default as Animation } from "./Animation";
 export { default as Avatar } from "./Avatar";
+export { default as Logo } from "./Logo";
 export { default as Button } from "./Button";
 export { default as Card, SectionLabel } from "./Card";
 export { Badge, ChoiceChip, Tag } from "./Chip";

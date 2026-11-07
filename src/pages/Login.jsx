@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Icon, Input, SegmentedControl } from "../components/common";
+import { Link, useSearchParams } from "react-router-dom";
+import { Button, Input, Logo, SegmentedControl } from "../components/common";
 import { login, signup } from "../features/user/userSlice";
 
 const EMPTY = { firstName: "", lastName: "", emailId: "", password: "" };
@@ -25,7 +26,9 @@ function validate(form, isSignup) {
 export default function Login() {
   const dispatch = useDispatch();
   const loading = useSelector((s) => s.user.authStatus === "loading");
-  const [mode, setMode] = useState("login");
+  // Landing page CTAs link to /login?mode=signup
+  const [params] = useSearchParams();
+  const [mode, setMode] = useState(params.get("mode") === "signup" ? "signup" : "login");
   const [form, setForm] = useState(EMPTY);
   const [errors, setErrors] = useState({});
   const isSignup = mode === "signup";
@@ -56,12 +59,9 @@ export default function Login() {
 
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col gap-6 px-6 pt-12 pb-8">
-      <div className="flex items-center gap-2.5">
-        <span className="flex size-10 items-center justify-center rounded-control bg-primary text-on-primary">
-          <Icon name="logo" size={22} strokeWidth={2.2} />
-        </span>
-        <span className="font-display text-[22px] font-bold tracking-[-0.02em]">Tinder-Dev</span>
-      </div>
+      <Link to="/" aria-label="Tinder-Dev home" className="self-start">
+        <Logo />
+      </Link>
 
       <div className="mt-1 flex flex-col gap-2.5">
         <h1 className="heading text-4xl leading-[1.08]">Find your people. For code, gym or more.</h1>

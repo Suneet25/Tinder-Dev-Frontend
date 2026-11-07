@@ -11,7 +11,7 @@ export default function Appearance() {
   const current = useSelector((s) => s.theme.current);
 
   return (
-    <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col bg-bg">
+    <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col bg-bg lg:max-w-2xl lg:py-4">
       <header className="flex items-center gap-2 border-b border-border px-3 py-3">
         <IconButton as={Link} to="/profile" icon="back" label="Back to profile" variant="ghost" />
         <h1 className="heading flex-1 text-xl">Appearance</h1>
